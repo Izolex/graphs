@@ -1,10 +1,13 @@
 # Graphs
 
+Implementation of some graph algorithms listed below based on [Networkx library](https://networkx.org/).
+All algorithms are printable via [Matplotlib library](https://matplotlib.org/).
+
 ## Data structures
 - [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap)
 
 ## Algorithms
-
+ 
 ### [Traversal](https://en.wikipedia.org/wiki/Graph_traversal)
 - [BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
 - [DFS](https://en.wikipedia.org/wiki/Depth-first_search)
@@ -29,3 +32,4 @@
 ### [Network flow](https://en.wikipedia.org/wiki/Network_flow_problem)
 - [Ford–Fulkerson](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm) ([Edmonds–Karp](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm))
 - [Dinic's](https://en.wikipedia.org/wiki/Dinic%27s_algorithm)
+- [Push-relabel](https://en.wikipedia.org/wiki/Push%E2%80%93relabel_maximum_flow_algorithm) (Goldberg's)

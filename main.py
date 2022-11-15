@@ -16,6 +16,7 @@ from algo.edmonds_karp import *
 from algo.dinic import *
 from algo.iddfs import *
 from algo.a_star import *
+from algo.goldberg import *
 from visualization import *
 
 nodes = [
@@ -75,6 +76,7 @@ class Algorithm(Enum):
     Dinic = 'dinic'
     IDDFS = 'iddfs'
     AStar = 'astar'
+    Goldberg = 'goldberg'
 
 
 algorithms = {
@@ -104,6 +106,7 @@ algorithms = {
     AlgorithmType.NetworkFlow: {
         Algorithm.EdmondsKarp: EdmondsKarp,
         Algorithm.Dinic: Dinic,
+        Algorithm.Goldberg: Goldberg,
     }
 }
 
@@ -117,7 +120,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'astar'
+name = 'goldberg'
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)
