@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
-def WelshPowell(context: AlgoContext) -> list[int]:
+def WelshPowell(context: AlgoContext) -> AlgoResult:
     result = {}
 
     color = -1
@@ -19,4 +19,4 @@ def WelshPowell(context: AlgoContext) -> list[int]:
             if node not in result and not has_neighbour:
                 result[node] = color
 
-    return [n[1] for n in sorted(result.items())]
+    return AlgoResult(context).withNodeColors([n[1] for n in sorted(result.items())])

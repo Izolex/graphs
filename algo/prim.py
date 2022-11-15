@@ -4,10 +4,10 @@ import math
 from networkx import Graph
 
 from data_struct.fibonacci import FibonacciHeap
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
-def Prim(context: AlgoContext) -> list[Graph.edges]:
+def Prim(context: AlgoContext) -> AlgoResult:
     key = {v: math.inf for v in context.graph.nodes.keys()}
     key[context.start_node] = 0
 
@@ -32,6 +32,6 @@ def Prim(context: AlgoContext) -> list[Graph.edges]:
             if in_mst[neighbor] is False and key[neighbor] > weight:
                 key[neighbor] = weight
                 queue.insert(key[neighbor], neighbor)
-                mst.append((neighbor, node.value))
+                mst.append((node.value, neighbor))
 
-    return mst
+    return AlgoResult(context).withWeights().withEdgeColors(mst)

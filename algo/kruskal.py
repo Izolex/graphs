@@ -4,10 +4,10 @@ from networkx import Graph
 
 from data_struct.fibonacci import FibonacciHeap
 from data_struct.disjoint_set import DisjointSet
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
-def Kruskal(context: AlgoContext) -> list[Graph.edges]:
+def Kruskal(context: AlgoContext) -> AlgoResult:
     mst = []
     forest = DisjointSet()
 
@@ -30,4 +30,4 @@ def Kruskal(context: AlgoContext) -> list[Graph.edges]:
             mst.append(edge)
             forest.union(x, y)
 
-    return mst
+    return AlgoResult(context).withWeights().withEdgeColors(mst)

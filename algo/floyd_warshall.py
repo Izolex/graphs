@@ -4,10 +4,10 @@ import math
 import numpy
 from networkx import Graph
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
-def FloydWarshall(context: AlgoContext) -> dict[Graph.nodes, int]:
+def FloydWarshall(context: AlgoContext) -> AlgoResult:
     edges_len = len(context.graph.edges)
 
     dist = numpy.full((edges_len, edges_len), math.inf, float)
@@ -27,4 +27,7 @@ def FloydWarshall(context: AlgoContext) -> dict[Graph.nodes, int]:
                         dist[i][k] + dist[k][j]
                     )
 
-    return {n: dist[context.start_node][n] for n in context.graph.nodes}
+    return AlgoResult(context). \
+        withNodeLabels({n: int(dist[context.start_node][n]) for n in context.graph.nodes}). \
+        withWeights(). \
+        withStartColor()

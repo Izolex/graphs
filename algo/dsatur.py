@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
-def DSatur(context: AlgoContext) -> list[int]:
+def DSatur(context: AlgoContext) -> AlgoResult:
     nodes = []
     for idx, node in enumerate(context.graph.nodes):
         neighbors = len(list(context.graph.neighbors(node)))
@@ -51,4 +51,4 @@ def DSatur(context: AlgoContext) -> list[int]:
                 result[node[0]] = color
                 break
 
-    return [n[1] for n in sorted(result.items())]
+    return AlgoResult(context).withNodeColors([n[1] for n in sorted(result.items())])

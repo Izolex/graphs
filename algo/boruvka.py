@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from networkx import Graph
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 from data_struct.disjoint_set import DisjointSet
 
 
-def Boruvka(context: AlgoContext) -> list[Graph.edges]:
+def Boruvka(context: AlgoContext) -> AlgoResult:
     mst = []
     forest = DisjointSet()
     rank = []
@@ -44,4 +44,4 @@ def Boruvka(context: AlgoContext) -> list[Graph.edges]:
 
         cheapest = [-1] * nodes_len
 
-    return mst
+    return AlgoResult(context).withWeights().withEdgeColors(mst)

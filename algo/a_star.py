@@ -11,7 +11,7 @@ def graphDistance(context: AlgoContext, n1: int, n2: int) -> float:
     return networkx.resistance_distance(context.graph, n1, n2)
 
 
-def AStar(context: AlgoContext) -> list[Graph.edges]:
+def AStar(context: AlgoContext) -> AlgoResult:
     source = {}
 
     distances = {context.start_node: graphDistance(context, context.start_node, context.end_node)}
@@ -41,4 +41,8 @@ def AStar(context: AlgoContext) -> list[Graph.edges]:
     for u, v in source.items():
         path.append((v, u))
 
-    return path
+    return AlgoResult(context).\
+        withEdgeColors(path).\
+        withWeights().\
+        withStartColor().\
+        withEndColor()

@@ -50,7 +50,7 @@ class GoldBergAlgo:
 
             self.relabel(node)
 
-    def run(self) -> dict[Graph.edges, int]:
+    def run(self):
         for neighbour in self.context.graph.neighbors(self.context.start_node):
             self.push(self.context.start_node, neighbour)
 
@@ -71,8 +71,14 @@ class GoldBergAlgo:
             else:
                 i += 1
 
-        return self.flow
 
+def Goldberg(context: AlgoContext) -> AlgoResult:
+    alg = GoldBergAlgo(context)
+    alg.run()
 
-def Goldberg(context: AlgoContext) -> dict[Graph.edges, int]:
-    return GoldBergAlgo(context).run()
+    return AlgoResult(context).\
+        withStartColor().\
+        withEndColor().\
+        withEdgeLabels(alg.flow).\
+        withNodeLabels(alg.height).\
+        withWeights()

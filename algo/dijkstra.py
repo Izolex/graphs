@@ -3,11 +3,11 @@ from __future__ import annotations
 import math
 from networkx import Graph
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 from data_struct.fibonacci import FibonacciHeap
 
 
-def Dijkstra(context: AlgoContext) -> dict[Graph.nodes, int]:
+def Dijkstra(context: AlgoContext) -> AlgoResult:
     distances = {v: math.inf for v in context.graph.nodes.keys()}
     distances[context.start_node] = 0
 
@@ -29,4 +29,7 @@ def Dijkstra(context: AlgoContext) -> dict[Graph.nodes, int]:
                     queue.insert(cost, neighbor)
                     distances[neighbor] = cost
 
-    return distances
+    return AlgoResult(context). \
+        withNodeLabels(distances). \
+        withWeights(). \
+        withStartColor()

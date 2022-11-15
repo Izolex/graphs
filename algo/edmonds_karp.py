@@ -2,7 +2,7 @@ from typing import Optional
 
 from networkx import Graph
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
 def EdmondsKarpBFS(context: AlgoContext, flow: dict[Graph.edges, int]) -> Optional[list[Graph.edges]]:
@@ -25,7 +25,7 @@ def EdmondsKarpBFS(context: AlgoContext, flow: dict[Graph.edges, int]) -> Option
     return None
 
 
-def EdmondsKarp(context: AlgoContext) -> dict[Graph.edges, int]:
+def EdmondsKarp(context: AlgoContext) -> AlgoResult:
     flow = {}
     for edge in context.graph.edges:
         flow[edge] = flow[tuple(reversed(edge))] = 0
@@ -37,4 +37,8 @@ def EdmondsKarp(context: AlgoContext) -> dict[Graph.edges, int]:
             flow[e] += path_flow
             flow[tuple(reversed(e))] -= path_flow
 
-    return flow
+    return AlgoResult(context).\
+        withStartColor().\
+        withEndColor().\
+        withEdgeLabels(flow).\
+        withWeights()

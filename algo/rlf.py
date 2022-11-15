@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
-def RLF(context: AlgoContext) -> list[int]:
+def RLF(context: AlgoContext) -> AlgoResult:
     result = {}
 
     color = -1
@@ -44,4 +44,4 @@ def RLF(context: AlgoContext) -> list[int]:
             node = candidates.pop(0)
             result[node[0]] = color
 
-    return [n[1] for n in sorted(result.items())]
+    return AlgoResult(context).withNodeColors([n[1] for n in sorted(result.items())])

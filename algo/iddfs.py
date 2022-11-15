@@ -23,7 +23,7 @@ def search(context: AlgoContext, path: list[Graph.nodes], depth: int) -> Optiona
             return result_path
 
 
-def IDDFS(context: AlgoContext) -> list[Graph.edges]:
+def IDDFS(context: AlgoContext) -> AlgoResult:
     depth = 1
     while True:
         path = [context.start_node]
@@ -37,4 +37,8 @@ def IDDFS(context: AlgoContext) -> list[Graph.edges]:
         for idx, node in enumerate(result[1:]):
             mst.append((result[idx], node))
 
-        return mst
+        return AlgoResult(context).\
+            withEdgeColors(mst).\
+            withWeights().\
+            withStartColor().\
+            withEndColor()

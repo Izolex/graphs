@@ -1,7 +1,7 @@
 import math
 from networkx import Graph
 
-from algorithm import AlgoContext
+from algorithm import AlgoContext, AlgoResult
 
 
 def DinicBFS(context: AlgoContext, flow: dict[Graph.edges, int]) -> list[int]:
@@ -48,7 +48,7 @@ def DinicDFS(context: AlgoContext, start: int, level: list[int], flow: dict[Grap
     return max_flow - temp_flow
 
 
-def Dinic(context: AlgoContext) -> dict[Graph.edges, int]:
+def Dinic(context: AlgoContext) -> AlgoResult:
     flow = {}
     for edge in context.graph.edges:
         flow[edge] = flow[tuple(reversed(edge))] = 0
@@ -59,4 +59,8 @@ def Dinic(context: AlgoContext) -> dict[Graph.edges, int]:
 
         DinicDFS(context, context.start_node, level, flow, math.inf)
 
-    return flow
+    return AlgoResult(context).\
+        withStartColor().\
+        withEndColor().\
+        withEdgeLabels(flow).\
+        withWeights()

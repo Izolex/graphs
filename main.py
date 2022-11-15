@@ -17,7 +17,7 @@ from algo.dinic import *
 from algo.iddfs import *
 from algo.a_star import *
 from algo.goldberg import *
-from visualization import *
+from visualizer import *
 
 nodes = [
     0, 1, 2,
@@ -48,7 +48,6 @@ graph.add_weighted_edges_from(edges)
 
 
 context = AlgoContext(graph, nodes[0], nodes[5])
-drawer = GraphDrawer(context)
 
 
 class AlgorithmType(Enum):
@@ -80,13 +79,11 @@ class Algorithm(Enum):
 
 
 algorithms = {
-    AlgorithmType.Search: {
-        Algorithm.IDDFS: IDDFS,
-        Algorithm.AStar: AStar,
-    },
     AlgorithmType.Traversal: {
         Algorithm.BFS: BFS,
         Algorithm.DFS: DFS,
+        Algorithm.IDDFS: IDDFS,
+        Algorithm.AStar: AStar,
     },
     AlgorithmType.ShortestPath: {
         Algorithm.Dijkstra: Dijkstra,
@@ -121,20 +118,10 @@ def findAlgoType(an: str) -> AlgorithmType:
 
 
 name = 'goldberg'
+
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)
 
-match algoType:
-    case AlgorithmType.Traversal:
-        drawer.traversal(result)
-    case AlgorithmType.Search:
-        drawer.search(result)
-    case AlgorithmType.MinimalSpanningTree:
-        drawer.minimalSpanningTree(result)
-    case AlgorithmType.ShortestPath:
-        drawer.shortestPath(result)
-    case AlgorithmType.Coloring:
-        drawer.coloring(result)
-    case AlgorithmType.NetworkFlow:
-        drawer.networkFlow(result)
+visualizer = Visualizer(context, result)
+visualizer.draw().show()
