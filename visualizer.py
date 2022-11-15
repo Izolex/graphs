@@ -1,7 +1,7 @@
 from __future__ import annotations
 import matplotlib.pyplot as plt
 import networkx
-from networkx import Graph
+from algorithm import *
 
 
 class GraphVisualizer:
@@ -30,18 +30,16 @@ class GraphVisualizer:
         self.node_colors = [self.colors[c] for c in coloring]
         return self
 
+    def withEdgeColors(self) -> GraphVisualizer:
+        self.with_edge_colors = True
+        return self
+
     def withNodeLabels(self, labels: dict) -> GraphVisualizer:
         networkx.draw_networkx_labels(self.graph, self.pos, labels)
         self.with_labels = False
-
         return self
 
-    def withEdgeColors(self) -> GraphVisualizer:
-        self.with_edge_colors = True
-
-        return self
-
-    def draw(self) -> GraphVisualizer:
+    def drawGraph(self) -> GraphVisualizer:
         edge_color_list = []
 
         for edge in self.graph.edges():
@@ -61,16 +59,49 @@ class GraphVisualizer:
 
         return self
 
-    def withWeight(self) -> GraphVisualizer:
+    def drawWeights(self) -> GraphVisualizer:
         labels = networkx.get_edge_attributes(self.graph, 'weight')
         networkx.draw_networkx_edge_labels(self.graph, self.pos, edge_labels=labels)
         return self
 
     def withEdgeLabels(self, labels: dict) -> GraphVisualizer:
         networkx.draw_networkx_edge_labels(self.graph, self.pos, edge_labels=labels)
-
         return self
 
     def show(self) -> None:
         plt.axis('off')
         plt.show()
+
+
+class GraphDrawer:
+    context: AlgoContext
+
+    def __init__(self, context: AlgoContext):
+        self.context = context
+
+    def minimalSpanningTree(self, edges: list[Graph.edges]):
+        for edge in edges:
+            self.context.graph[edge[0]][edge[1]]['color'] = 'red'
+
+        GraphVisualizer(self.context.graph).\
+            withEdgeColors().\
+            drawGraph().\
+            drawWeights().\
+            show()
+
+    def shortestPath(self, distances: dict[Graph.nodes, float]):
+        node_labels = {node: str(node) + " (" + str(int(distances[node])) + ")" for node in distances}
+
+        GraphVisualizer(self.context.graph).\
+            withNodeColor(self.context.start_node, 'red').\
+            withNodeLabels(node_labels).\
+            drawGraph().\
+            drawWeights().\
+            show()
+
+    def coloring(self, colors: list[int]):
+        GraphVisualizer(self.context.graph).\
+            withColoring(colors).\
+            drawGraph().\
+            drawWeights().\
+            show()

@@ -1,67 +1,53 @@
 from __future__ import annotations
-from visualizer import *
+from algorithm import *
 
 
-class DSatur:
-    graph: Graph
-    start_node: int
+def DSatur(context: AlgoContext) -> list[int]:
+    nodes = []
+    for idx, node in enumerate(context.graph.nodes):
+        neighbors = len(list(context.graph.neighbors(node)))
+        nodes.append((node, neighbors, idx))
 
-    def __init__(self, graph: Graph) -> None:
-        self.graph = graph
+    nodes.sort(reverse=True, key=lambda x: x[1])
 
-    def run(self) -> list[int]:
-        nodes = []
-        for idx, node in enumerate(self.graph.nodes):
-            neighbors = len(list(self.graph.neighbors(node)))
-            nodes.append((node, neighbors, idx))
+    result = {nodes[0][0]: 0}
+    nodes.pop(0)
 
-        nodes.sort(reverse=True, key=lambda x: x[1])
+    while len(result.items()) < len(context.graph.nodes):
+        candidates = []
 
-        result = {nodes[0][0]: 0}
-        nodes.pop(0)
+        for node in context.graph.nodes:
+            if node in result:
+                continue
 
-        while len(result.items()) < len(self.graph.nodes):
-            candidates = []
+            coloring = {}
+            neighbours = context.graph.neighbors(node)
 
-            for node in self.graph.nodes:
-                if node in result:
-                    continue
+            for neighbor in neighbours:
+                if neighbor in result:
+                    if result[neighbor] in coloring:
+                        coloring[result[neighbor]] += 1
+                    else:
+                        coloring[result[neighbor]] = 1
 
-                coloring = {}
-                neighbours = self.graph.neighbors(node)
+            candidates.append((node, len(coloring.items()), len(list(neighbours))))
 
-                for neighbor in neighbours:
-                    if neighbor in result:
-                        if result[neighbor] in coloring:
-                            coloring[result[neighbor]] += 1
-                        else:
-                            coloring[result[neighbor]] = 1
+        candidates.sort(reverse=True, key=lambda x: (x[1], x[2]))
 
-                candidates.append((node, len(coloring.items()), len(list(neighbours))))
+        node = candidates.pop(0)
 
-            candidates.sort(reverse=True, key=lambda x: (x[1], x[2]))
+        color = -1
+        while True:
+            color += 1
 
-            node = candidates.pop(0)
-
-            color = -1
-            while True:
-                color += 1
-
-                has_neighbour = False
-                for neighbor in self.graph.neighbors(node[0]):
-                    if neighbor in result and result[neighbor] == color:
-                        has_neighbour = True
-                        break
-
-                if not has_neighbour:
-                    result[node[0]] = color
+            has_neighbour = False
+            for neighbor in context.graph.neighbors(node[0]):
+                if neighbor in result and result[neighbor] == color:
+                    has_neighbour = True
                     break
 
-        return [n[1] for n in sorted(result.items())]
+            if not has_neighbour:
+                result[node[0]] = color
+                break
 
-    def draw(self, colors: list[int]) -> None:
-        GraphVisualizer(self.graph).\
-            withColoring(colors).\
-            draw().\
-            withWeight().\
-            show()
+    return [n[1] for n in sorted(result.items())]

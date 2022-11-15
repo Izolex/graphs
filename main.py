@@ -1,3 +1,4 @@
+from enum import Enum
 from dijkstra import *
 from prim import *
 from kruskal import *
@@ -36,68 +37,66 @@ graph = networkx.Graph()
 graph.add_nodes_from(nodes)
 graph.add_weighted_edges_from(edges)
 
-algo = "fibonacci"
-algo = "prim"
-algo = "kruskal"
-algo = "welsh_powell"
-algo = "dsatur"
-algo = "dijkstra"
-algo = "floyd_warshall"
-algo = "bellman_ford"
-algo = "boruvka"
-algo = "rlf"
 
-match algo:
-    case "fibonacci":
-        fib_nodes = [Node(i, 0) for i in range(1, 20)]
+context = AlgoContext(graph, nodes[0])
+drawer = GraphDrawer(context)
 
-        h = FibonacciHeap()
 
-        for n in fib_nodes:
-            h.merge(n)
+class AlgorithmType(Enum):
+    MinimalSpanningTree = "minimalSpanningTree"
+    ShortestPath = "shortestPath"
+    Coloring = "coloring"
 
-        h.print()
-        h.extract_min()
-        h.print()
-        h.decrease_key(fib_nodes[5], 1)
-        h.print()
-        GraphVisualizer(h.get_graph()).draw().show()
 
-    case "dijkstra":
-        dij = Dijkstra(graph, nodes[0])
-        dij.draw(dij.run())
+class Algorithm(Enum):
+    Dijkstra = 'dijkstra'
+    FloydWarshall = 'floyd_warshall'
+    BellmanFord = 'bellman_ford'
+    Kruskal = 'kruskal'
+    Prim = 'prim'
+    Boruvka = 'boruvka'
+    WelshPowell = 'welsh_powell'
+    RecursiveLargestFirst = 'rlf'
+    DegreeOfSaturation = 'dsatur'
 
-    case "prim":
-        pri = Prim(graph, nodes[0])
-        pri.draw(pri.run())
 
-    case "kruskal":
-        kru = Kruskal(graph, nodes[0])
-        kru.draw(kru.run())
+algorithms = {
+    AlgorithmType.ShortestPath: {
+        Algorithm.Dijkstra: Dijkstra,
+        Algorithm.FloydWarshall: FloydWarshall,
+        Algorithm.BellmanFord: BellmanFord,
+    },
+    AlgorithmType.MinimalSpanningTree: {
+        Algorithm.Prim: Prim,
+        Algorithm.Kruskal: Kruskal,
+        Algorithm.Boruvka: Boruvka,
+    },
+    AlgorithmType.Coloring: {
+        Algorithm.WelshPowell: WelshPowell,
+        Algorithm.RecursiveLargestFirst: RLF,
+        Algorithm.DegreeOfSaturation: DSatur,
+    }
+}
 
-    case "welsh_powell":
-        wp = WelshPowell(graph)
-        wp.draw(wp.run())
 
-    case "dsatur":
-        ds = DSatur(graph)
-        ds.draw(ds.run())
+def findAlgoType(an: str) -> AlgorithmType:
+    for t in algorithms.keys():
+        for n in algorithms[t].keys():
+            if n.value == an:
+                return t
 
-    case "floyd_warshall":
-        fw = FloydWarshall(graph, 0)
-        fw.draw(fw.run())
+    raise Exception('Algo not found')
 
-    case "bellman_ford":
-        bf = BellmanFord(graph, 0)
-        bf.draw(bf.run())
 
-    case "boruvka":
-        b = Boruvka(graph)
-        b.draw(b.run())
+name = 'dsatur'
+algoType = findAlgoType(name)
+algoName = Algorithm(name)
+result = algorithms[algoType][algoName](context)
 
-    case "rlf":
-        b = RLF(graph)
-        b.draw(b.run())
-
-    case _:
-        print("wtf")
+match algoType:
+    case AlgorithmType.MinimalSpanningTree:
+        drawer.minimalSpanningTree(result)
+    case AlgorithmType.ShortestPath:
+        drawer.shortestPath(result)
+    case AlgorithmType.Coloring:
+        drawer.coloring(result)

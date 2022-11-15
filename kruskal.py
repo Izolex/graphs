@@ -1,67 +1,30 @@
 from __future__ import annotations
 from fibonacci import *
-from visualizer import *
+from disjoint_set import *
+from algorithm import *
 
 
-class Kruskal:
-    graph: Graph
-    start_node: int
+def Kruskal(context: AlgoContext) -> list[Graph.edges]:
+    mst = []
+    forest = DisjointSet()
 
-    def __init__(self, graph: Graph, start_node: int) -> None:
-        self.graph = graph
-        self.start_node = start_node
+    queue = FibonacciHeap()
 
-    def __find(self, forest, i):
-        if forest[i] == i:
-            return i
-        return self.__find(forest, forest[i])
+    for node in context.graph.nodes:
+        forest.append(node)
 
-    def __union(self, forest, rank, x, y):
-        x_set = self.__find(forest, x)
-        y_set = self.__find(forest, y)
+    for edge in context.graph.edges:
+        weight = context.graph[edge[0]][edge[1]]['weight']
+        queue.insert(weight, edge)
 
-        if rank[x_set] < rank[y_set]:
-            forest[x_set] = y_set
-        elif rank[x_set] > rank[y_set]:
-            forest[y_set] = x_set
-        else:
-            forest[y_set] = x_set
-            rank[x_set] += 1
+    while not queue.is_empty():
+        node = queue.extract_min()
+        edge = node.value
 
-    def run(self) -> list[graph.edges]:
-        mst = []
-        forest = []
-        rank = []
+        x = forest.find(edge[0])
+        y = forest.find(edge[1])
+        if x != y:
+            mst.append(edge)
+            forest.union(x, y)
 
-        queue = FibonacciHeap()
-
-        for node in self.graph.nodes:
-            forest.append(node)
-            rank.append(0)
-
-        for edge in self.graph.edges:
-            weight = self.graph[edge[0]][edge[1]]['weight']
-            queue.insert(weight, edge)
-
-        while not queue.is_empty():
-            node = queue.extract_min()
-            edge = node.value
-
-            x = self.__find(forest, edge[0])
-            y = self.__find(forest, edge[1])
-            if x != y:
-                mst.append(edge)
-                self.__union(forest, rank, x, y)
-
-        return mst
-
-    def draw(self, mst: list[graph.edges]) -> None:
-        for edge in mst:
-            self.graph[edge[0]][edge[1]]['color'] = 'red'
-
-        GraphVisualizer(self.graph).\
-            withNodeColor(self.start_node, 'red').\
-            withEdgeColors().\
-            draw().\
-            withWeight().\
-            show()
+    return mst
