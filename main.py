@@ -18,6 +18,7 @@ from algo.iddfs import *
 from algo.a_star import *
 from algo.goldberg import *
 from algo.kahn import *
+from algo.hopcroft_karp import *
 from visualizer import *
 
 edges = [
@@ -44,6 +45,16 @@ edges = [
 #     (3, 1, 0),
 # ]
 
+# bipartite graph
+edges = [
+    (1, 5, 0),
+    (1, 7, 0),
+    (2, 7, 0),
+    (3, 8, 0),
+    (4, 6, 0),
+    (4, 7, 0),
+]
+
 # nodes = [0, 1, 2, 3, 4, 5]
 # edges = [(0, 2, 1), (1, 3, 2), (3, 4, 3), (2, 3, 4), (2, 5, 5), (1, 3, 6), (3, 1, 7), (4, 5, 10)]
 
@@ -56,11 +67,11 @@ context = AlgoContext(graph, 1, 5)
 
 class AlgorithmType(Enum):
     Traversal = "traversal"
-    Search = "search"
     MinimalSpanningTree = "minimalSpanningTree"
     ShortestPath = "shortestPath"
     Coloring = "coloring"
     NetworkFlow = "network_flow"
+    MaximumMatching = "maximum_matching"
     Miscellaneous = "miscellaneous"
 
 
@@ -82,6 +93,7 @@ class Algorithm(Enum):
     AStar = 'astar'
     Goldberg = 'goldberg'
     Kahn = 'kahn'
+    HopcroftKarp = 'hopcroft_karp'
 
 
 algorithms = {
@@ -109,6 +121,9 @@ algorithms = {
         Algorithm.RecursiveLargestFirst: RLF,
         Algorithm.DegreeOfSaturation: DSatur,
     },
+    AlgorithmType.MaximumMatching: {
+        Algorithm.HopcroftKarp: HopcroftKarp,
+    },
     AlgorithmType.NetworkFlow: {
         Algorithm.EdmondsKarp: EdmondsKarp,
         Algorithm.Dinic: Dinic,
@@ -126,7 +141,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'kahn'
+name = 'hopcroft_karp'
 
 algoType = findAlgoType(name)
 algoName = Algorithm(name)

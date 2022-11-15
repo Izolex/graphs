@@ -31,6 +31,9 @@ All algorithms are printable via [Matplotlib library](https://matplotlib.org/).
 - [Recursive Largest First (LRF)](https://en.wikipedia.org/wiki/Recursive_largest_first_algorithm)
 - [Degree of Saturation (DSatur)](https://en.wikipedia.org/wiki/DSatur)
 
+### [Maximum matching](https://en.wikipedia.org/wiki/Matching_(graph_theory))
+- [Hopcroft–Karp](https://en.wikipedia.org/wiki/Hopcroft%E2%80%93Karp_algorithm)
+
 ### [Network flow](https://en.wikipedia.org/wiki/Network_flow_problem)
 - [Ford–Fulkerson](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm) ([Edmonds–Karp](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm))
 - [Dinic's](https://en.wikipedia.org/wiki/Dinic%27s_algorithm)
