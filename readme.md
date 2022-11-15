@@ -4,6 +4,11 @@
 - [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap)
 
 ## Algorithms
+
+### [Traversal](https://en.wikipedia.org/wiki/Graph_traversal)
+- [BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
+- [DFS](https://en.wikipedia.org/wiki/Depth-first_search)
+
 ### [Shortest path](https://en.wikipedia.org/wiki/Shortest_path_problem)
 - [Dijkstra's](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
 - [Floyd–Warshall](https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm)

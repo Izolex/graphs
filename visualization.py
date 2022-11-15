@@ -87,6 +87,16 @@ class GraphDrawer:
     def __init__(self, context: AlgoContext):
         self.context = context
 
+    def traversal(self, visited: dict[Graph.nodes, int]):
+        node_labels = {node: str(node) + " (" + str(visited[node]) + ")" for node in visited}
+
+        GraphVisualizer(self.context.graph).\
+            withNodeColor(self.context.start_node, 'red').\
+            withNodeLabels(node_labels).\
+            draw().\
+            show()
+
+
     def minimalSpanningTree(self, edges: list[Graph.edges]):
         for edge in edges:
             self.context.graph[edge[0]][edge[1]]['color'] = 'red'

@@ -2,6 +2,7 @@ from enum import Enum
 
 import networkx
 
+from algo.bfs_dfs import *
 from algo.dijkstra import *
 from algo.prim import *
 from algo.kruskal import *
@@ -48,6 +49,7 @@ drawer = GraphDrawer(context)
 
 
 class AlgorithmType(Enum):
+    Traversal = "traversal"
     MinimalSpanningTree = "minimalSpanningTree"
     ShortestPath = "shortestPath"
     Coloring = "coloring"
@@ -55,6 +57,8 @@ class AlgorithmType(Enum):
 
 
 class Algorithm(Enum):
+    BFS = 'bfs'
+    DFS = 'dfs'
     Dijkstra = 'dijkstra'
     FloydWarshall = 'floyd_warshall'
     BellmanFord = 'bellman_ford'
@@ -69,6 +73,10 @@ class Algorithm(Enum):
 
 
 algorithms = {
+    AlgorithmType.Traversal: {
+        Algorithm.BFS: BFS,
+        Algorithm.DFS: DFS,
+    },
     AlgorithmType.ShortestPath: {
         Algorithm.Dijkstra: Dijkstra,
         Algorithm.FloydWarshall: FloydWarshall,
@@ -100,12 +108,14 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'dinic'
+name = 'bfs'
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)
 
 match algoType:
+    case AlgorithmType.Traversal:
+        drawer.traversal(result)
     case AlgorithmType.MinimalSpanningTree:
         drawer.minimalSpanningTree(result)
     case AlgorithmType.ShortestPath:
