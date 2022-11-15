@@ -21,3 +21,4 @@
 
 ### [Network flow](https://en.wikipedia.org/wiki/Network_flow_problem)
 - [Ford–Fulkerson](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm) ([Edmonds–Karp](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm))
+- [Dinic's](https://en.wikipedia.org/wiki/Dinic%27s_algorithm)

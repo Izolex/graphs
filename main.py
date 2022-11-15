@@ -12,6 +12,7 @@ from algo.bellman_ford import *
 from algo.boruvka import *
 from algo.rlf import *
 from algo.edmonds_karp import *
+from algo.dinic import *
 from visualization import *
 
 nodes = [
@@ -64,6 +65,7 @@ class Algorithm(Enum):
     RecursiveLargestFirst = 'rlf'
     DegreeOfSaturation = 'dsatur'
     EdmondsKarp = 'edmonds_karp'
+    Dinic = 'dinic'
 
 
 algorithms = {
@@ -84,6 +86,7 @@ algorithms = {
     },
     AlgorithmType.NetworkFlow: {
         Algorithm.EdmondsKarp: EdmondsKarp,
+        Algorithm.Dinic: Dinic,
     }
 }
 
@@ -97,7 +100,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'edmonds_karp'
+name = 'dinic'
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)
