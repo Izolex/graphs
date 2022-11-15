@@ -17,12 +17,8 @@ from algo.dinic import *
 from algo.iddfs import *
 from algo.a_star import *
 from algo.goldberg import *
+from algo.kahn import *
 from visualizer import *
-
-nodes = [
-    0, 1, 2,
-    3, 4, 5,
-]
 
 edges = [
     (0, 1, 10),
@@ -39,15 +35,23 @@ edges = [
     (4, 5, 50),
 ]
 
+# edges = [
+#     (5, 2, 0),
+#     (5, 0, 0),
+#     (4, 0, 0),
+#     (4, 1, 0),
+#     (2, 3, 0),
+#     (3, 1, 0),
+# ]
+
 # nodes = [0, 1, 2, 3, 4, 5]
 # edges = [(0, 2, 1), (1, 3, 2), (3, 4, 3), (2, 3, 4), (2, 5, 5), (1, 3, 6), (3, 1, 7), (4, 5, 10)]
 
-graph = networkx.Graph()
-graph.add_nodes_from(nodes)
+graph = networkx.DiGraph()
 graph.add_weighted_edges_from(edges)
 
 
-context = AlgoContext(graph, nodes[0], nodes[5])
+context = AlgoContext(graph, 1, 5)
 
 
 class AlgorithmType(Enum):
@@ -57,6 +61,7 @@ class AlgorithmType(Enum):
     ShortestPath = "shortestPath"
     Coloring = "coloring"
     NetworkFlow = "network_flow"
+    Miscellaneous = "miscellaneous"
 
 
 class Algorithm(Enum):
@@ -76,9 +81,13 @@ class Algorithm(Enum):
     IDDFS = 'iddfs'
     AStar = 'astar'
     Goldberg = 'goldberg'
+    Kahn = 'kahn'
 
 
 algorithms = {
+    AlgorithmType.Miscellaneous: {
+        Algorithm.Kahn: Kahn
+    },
     AlgorithmType.Traversal: {
         Algorithm.BFS: BFS,
         Algorithm.DFS: DFS,
@@ -117,7 +126,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'goldberg'
+name = 'kahn'
 
 algoType = findAlgoType(name)
 algoName = Algorithm(name)

@@ -7,7 +7,9 @@ All algorithms are printable via [Matplotlib library](https://matplotlib.org/).
 - [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap)
 
 ## Algorithms
- 
+### Miscellaneous
+- [Kahn’s (topological sort)](https://en.wikipedia.org/wiki/Topological_sorting)
+
 ### [Traversal](https://en.wikipedia.org/wiki/Graph_traversal)
 - [BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
 - [DFS](https://en.wikipedia.org/wiki/Depth-first_search)
