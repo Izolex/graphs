@@ -7,3 +7,4 @@ from networkx import Graph
 class AlgoContext:
     graph: Graph
     start_node: int
+    end_node: int

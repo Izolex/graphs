@@ -2,13 +2,13 @@ from enum import Enum
 from dijkstra import *
 from prim import *
 from kruskal import *
-from fibonacci import *
 from welsh_powell import *
 from dsatur import *
 from floyd_warshall import *
 from bellman_ford import *
 from boruvka import *
 from rlf import *
+from edmonds_karp import *
 
 nodes = [
     0, 1, 2,
@@ -38,7 +38,7 @@ graph.add_nodes_from(nodes)
 graph.add_weighted_edges_from(edges)
 
 
-context = AlgoContext(graph, nodes[0])
+context = AlgoContext(graph, nodes[0], nodes[5])
 drawer = GraphDrawer(context)
 
 
@@ -46,6 +46,7 @@ class AlgorithmType(Enum):
     MinimalSpanningTree = "minimalSpanningTree"
     ShortestPath = "shortestPath"
     Coloring = "coloring"
+    NetworkFlow = "network_flow"
 
 
 class Algorithm(Enum):
@@ -58,6 +59,7 @@ class Algorithm(Enum):
     WelshPowell = 'welsh_powell'
     RecursiveLargestFirst = 'rlf'
     DegreeOfSaturation = 'dsatur'
+    EdmondsKarp = 'edmonds_karp'
 
 
 algorithms = {
@@ -75,6 +77,9 @@ algorithms = {
         Algorithm.WelshPowell: WelshPowell,
         Algorithm.RecursiveLargestFirst: RLF,
         Algorithm.DegreeOfSaturation: DSatur,
+    },
+    AlgorithmType.NetworkFlow: {
+        Algorithm.EdmondsKarp: EdmondsKarp,
     }
 }
 
@@ -88,7 +93,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'dsatur'
+name = 'edmonds_karp'
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)
@@ -100,3 +105,5 @@ match algoType:
         drawer.shortestPath(result)
     case AlgorithmType.Coloring:
         drawer.coloring(result)
+    case AlgorithmType.NetworkFlow:
+        drawer.networkFlow(result)
