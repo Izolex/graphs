@@ -1,9 +1,10 @@
 import math
+from networkx import Graph
 
 from algorithm import AlgoContext
 
 
-def DinicBFS(context: AlgoContext, flow):
+def DinicBFS(context: AlgoContext, flow: dict[Graph.edges, int]) -> list[int]:
     queue = [context.start_node]
 
     level = [0] * len(list(context.graph.nodes))
@@ -22,11 +23,11 @@ def DinicBFS(context: AlgoContext, flow):
     return level
 
 
-def DinicDFS(context: AlgoContext, start, level, flow, max_flow):
+def DinicDFS(context: AlgoContext, start: int, level: list[int], flow: dict[Graph.edges, int], max_flow: float) -> int:
     temp_flow = max_flow
 
     if start == context.end_node:
-        return max_flow
+        return int(max_flow)
 
     for node in context.graph.neighbors(start):
         if level[node] != level[start] + 1:
@@ -47,7 +48,7 @@ def DinicDFS(context: AlgoContext, start, level, flow, max_flow):
     return max_flow - temp_flow
 
 
-def Dinic(context: AlgoContext):
+def Dinic(context: AlgoContext) -> dict[Graph.edges, int]:
     flow = {}
     for edge in context.graph.edges:
         flow[edge] = flow[tuple(reversed(edge))] = 0

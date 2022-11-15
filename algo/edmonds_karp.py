@@ -1,7 +1,11 @@
+from typing import Optional
+
+from networkx import Graph
+
 from algorithm import AlgoContext
 
 
-def EdmondsKarpBFS(context: AlgoContext, flow):
+def EdmondsKarpBFS(context: AlgoContext, flow: dict[Graph.edges, int]) -> Optional[list[Graph.edges]]:
     queue = [context.start_node]
     paths = {context.start_node: []}
 
@@ -21,7 +25,7 @@ def EdmondsKarpBFS(context: AlgoContext, flow):
     return None
 
 
-def EdmondsKarp(context: AlgoContext):
+def EdmondsKarp(context: AlgoContext) -> dict[Graph.edges, int]:
     flow = {}
     for edge in context.graph.edges:
         flow[edge] = flow[tuple(reversed(edge))] = 0

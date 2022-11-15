@@ -108,7 +108,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'bfs'
+name = 'edmonds_karp'
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)
