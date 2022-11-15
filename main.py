@@ -14,6 +14,7 @@ from algo.boruvka import *
 from algo.rlf import *
 from algo.edmonds_karp import *
 from algo.dinic import *
+from algo.iddfs import *
 from visualization import *
 
 nodes = [
@@ -50,6 +51,7 @@ drawer = GraphDrawer(context)
 
 class AlgorithmType(Enum):
     Traversal = "traversal"
+    Search = "search"
     MinimalSpanningTree = "minimalSpanningTree"
     ShortestPath = "shortestPath"
     Coloring = "coloring"
@@ -70,9 +72,13 @@ class Algorithm(Enum):
     DegreeOfSaturation = 'dsatur'
     EdmondsKarp = 'edmonds_karp'
     Dinic = 'dinic'
+    IDDFS = 'iddfs'
 
 
 algorithms = {
+    AlgorithmType.Search: {
+        Algorithm.IDDFS: IDDFS,
+    },
     AlgorithmType.Traversal: {
         Algorithm.BFS: BFS,
         Algorithm.DFS: DFS,
@@ -108,7 +114,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'edmonds_karp'
+name = 'iddfs'
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)
@@ -116,6 +122,8 @@ result = algorithms[algoType][algoName](context)
 match algoType:
     case AlgorithmType.Traversal:
         drawer.traversal(result)
+    case AlgorithmType.Search:
+        drawer.search(result)
     case AlgorithmType.MinimalSpanningTree:
         drawer.minimalSpanningTree(result)
     case AlgorithmType.ShortestPath:

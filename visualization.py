@@ -96,6 +96,22 @@ class GraphDrawer:
             draw().\
             show()
 
+    def search(self, edges: list[Graph.edges]):
+        labels = {}
+        for edge in self.context.graph.edges:
+            labels[edge] = self.context.graph[edge[0]][edge[1]]['weight']
+
+        for idx, edge in enumerate(edges):
+            labels[edge] = str(idx + 1) + " / " + str(self.context.graph[edge[0]][edge[1]]['weight'])
+            self.context.graph[edge[0]][edge[1]]['color'] = 'red'
+
+        GraphVisualizer(self.context.graph).\
+            withNodeColor(self.context.start_node, 'red').\
+            withNodeColor(self.context.end_node, 'blue').\
+            withEdgeLabels(labels).\
+            withEdgeColors().\
+            draw().\
+            show()
 
     def minimalSpanningTree(self, edges: list[Graph.edges]):
         for edge in edges:
