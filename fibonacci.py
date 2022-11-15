@@ -104,7 +104,7 @@ class FibonacciHeap:
             return
 
         nodes = [n for n in self.__iterate(self.root)]
-        ranks: list[Node | None] = [None] * self.rank
+        ranks: list[Node | None] = [None] * 99999
 
         for node in nodes:
             rank = node.rank
