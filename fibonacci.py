@@ -98,7 +98,7 @@ class FibonacciHeap:
             return
 
         nodes = [n for n in self.__iterate(self.root)]
-        ranks: list[Node | None] = [None] * int(math.log(self.total_nodes) * 2)
+        ranks: list[Node | None] = [None] * (int(math.log(self.total_nodes) * 2)+1)
 
         for node in nodes:
             rank = node.rank
