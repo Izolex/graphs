@@ -12,13 +12,6 @@ class WelshPowell:
     def run(self) -> list[int]:
         result = {}
 
-        nodes = []
-        for node in self.graph.nodes:
-            neighbors = len(list(self.graph.neighbors(node)))
-            nodes.append((neighbors, node))
-
-        nodes.sort(reverse=True, key=lambda x: x[0])
-
         color = -1
         while len(result.items()) < len(self.graph.nodes):
             color += 1

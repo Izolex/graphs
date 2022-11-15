@@ -4,6 +4,10 @@ from kruskal import *
 from fibonacci import *
 from welsh_powell import *
 from dsatur import *
+from floyd_warshall import *
+from bellman_ford import *
+from boruvka import *
+from rlf import *
 
 nodes = [
     0, 1, 2,
@@ -33,11 +37,15 @@ graph.add_nodes_from(nodes)
 graph.add_weighted_edges_from(edges)
 
 algo = "fibonacci"
-algo = "dijkstra"
 algo = "prim"
 algo = "kruskal"
 algo = "welsh_powell"
 algo = "dsatur"
+algo = "dijkstra"
+algo = "floyd_warshall"
+algo = "bellman_ford"
+algo = "boruvka"
+algo = "rlf"
 
 match algo:
     case "fibonacci":
@@ -72,8 +80,24 @@ match algo:
         wp.draw(wp.run())
 
     case "dsatur":
-        wp = DSatur(graph)
-        wp.draw(wp.run())
+        ds = DSatur(graph)
+        ds.draw(ds.run())
+
+    case "floyd_warshall":
+        fw = FloydWarshall(graph, 0)
+        fw.draw(fw.run())
+
+    case "bellman_ford":
+        bf = BellmanFord(graph, 0)
+        bf.draw(bf.run())
+
+    case "boruvka":
+        b = Boruvka(graph)
+        b.draw(b.run())
+
+    case "rlf":
+        b = RLF(graph)
+        b.draw(b.run())
 
     case _:
         print("wtf")
