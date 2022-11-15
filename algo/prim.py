@@ -1,10 +1,14 @@
 from __future__ import annotations
-from fibonacci import *
-from algorithm import *
+
+import math
+from networkx import Graph
+
+from data_struct.fibonacci import FibonacciHeap
+from algorithm import AlgoContext
 
 
 def Prim(context: AlgoContext) -> list[Graph.edges]:
-    key = {v: float('inf') for v in context.graph.nodes.keys()}
+    key = {v: math.inf for v in context.graph.nodes.keys()}
     key[context.start_node] = 0
 
     mst = []

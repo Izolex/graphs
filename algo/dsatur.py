@@ -1,5 +1,6 @@
 from __future__ import annotations
-from algorithm import *
+
+from algorithm import AlgoContext
 
 
 def DSatur(context: AlgoContext) -> list[int]:

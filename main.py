@@ -1,14 +1,18 @@
 from enum import Enum
-from dijkstra import *
-from prim import *
-from kruskal import *
-from welsh_powell import *
-from dsatur import *
-from floyd_warshall import *
-from bellman_ford import *
-from boruvka import *
-from rlf import *
-from edmonds_karp import *
+
+import networkx
+
+from algo.dijkstra import *
+from algo.prim import *
+from algo.kruskal import *
+from algo.welsh_powell import *
+from algo.dsatur import *
+from algo.floyd_warshall import *
+from algo.bellman_ford import *
+from algo.boruvka import *
+from algo.rlf import *
+from algo.edmonds_karp import *
+from visualization import *
 
 nodes = [
     0, 1, 2,

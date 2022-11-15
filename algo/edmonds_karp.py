@@ -1,4 +1,4 @@
-from algorithm import *
+from algorithm import AlgoContext
 
 
 def EdmondsKarpBFS(context: AlgoContext, flow):

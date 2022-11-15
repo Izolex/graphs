@@ -1,7 +1,10 @@
 from __future__ import annotations
-from fibonacci import *
-from disjoint_set import *
-from algorithm import *
+
+from networkx import Graph
+
+from data_struct.fibonacci import FibonacciHeap
+from data_struct.disjoint_set import DisjointSet
+from algorithm import AlgoContext
 
 
 def Kruskal(context: AlgoContext) -> list[Graph.edges]:

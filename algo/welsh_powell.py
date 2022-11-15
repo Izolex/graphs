@@ -1,5 +1,6 @@
 from __future__ import annotations
-from algorithm import *
+
+from algorithm import AlgoContext
 
 
 def WelshPowell(context: AlgoContext) -> list[int]:

@@ -1,6 +1,9 @@
 from __future__ import annotations
-from algorithm import *
-from disjoint_set import *
+
+from networkx import Graph
+
+from algorithm import AlgoContext
+from data_struct.disjoint_set import DisjointSet
 
 
 def Boruvka(context: AlgoContext) -> list[Graph.edges]:

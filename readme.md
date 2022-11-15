@@ -20,4 +20,4 @@
 - [Degree of Saturation (DSatur)](https://en.wikipedia.org/wiki/DSatur)
 
 ### [Network flow](https://en.wikipedia.org/wiki/Network_flow_problem)
-- [Edmonds–Karp](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm) ([Ford–Fulkerson](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm))
+- [Ford–Fulkerson](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm) ([Edmonds–Karp](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm))

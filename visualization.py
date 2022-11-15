@@ -7,7 +7,8 @@ from algorithm import *
 class GraphVisualizer:
     g: Graph
     pos: dict
-    edge_labels: bool = False
+    edge_labels: dict[Graph.edges, str] = {}
+    node_labels: dict[Graph.nodes, str] = {}
     with_node_labels: bool = True
     with_edge_colors: bool = False
 
@@ -22,11 +23,11 @@ class GraphVisualizer:
         self.node_colors[node] = color
         return self
 
-    def withNodeColors(self, colors: list[str]):
+    def withNodeColors(self, colors: list[str]) -> GraphVisualizer:
         self.node_colors = colors
         return self
 
-    def withColoring(self, coloring: list[int]):
+    def withColoring(self, coloring: list[int]) -> GraphVisualizer:
         self.node_colors = [self.colors[c] for c in coloring]
         return self
 
@@ -34,12 +35,20 @@ class GraphVisualizer:
         self.with_edge_colors = True
         return self
 
-    def drawNodeLabels(self, labels: dict) -> GraphVisualizer:
-        networkx.draw_networkx_labels(self.graph, self.pos, labels)
-        self.with_node_labels = False
+    def withEdgeLabels(self, labels: dict[Graph.edges, str]) -> GraphVisualizer:
+        self.edge_labels = labels
         return self
 
-    def drawGraph(self) -> GraphVisualizer:
+    def withWeights(self) -> GraphVisualizer:
+        labels = networkx.get_edge_attributes(self.graph, 'weight')
+        self.withEdgeLabels(labels)
+        return self
+
+    def withNodeLabels(self, labels: dict[Graph.nodes, str]) -> GraphVisualizer:
+        self.node_labels = labels
+        return self
+
+    def draw(self) -> GraphVisualizer:
         edge_color_list = []
 
         for edge in self.graph.edges():
@@ -48,24 +57,24 @@ class GraphVisualizer:
             else:
                 edge_color_list.append('black')
 
+        has_node_labels = bool(len(self.node_labels.items()))
+
+        if has_node_labels:
+            networkx.draw_networkx_labels(self.graph, self.pos, self.node_labels)
+
         networkx.draw(
             self.graph,
             self.pos,
-            with_labels=self.with_node_labels,
+            with_labels=not has_node_labels,
             font_weight='bold',
             node_color=self.node_colors,
             edge_color=edge_color_list
         )
 
-        return self
+        if len(self.edge_labels.items()):
+            networkx.draw_networkx_edge_labels(self.graph, self.pos, self.edge_labels)
 
-    def drawEdgeLabels(self, labels: dict) -> GraphVisualizer:
-        networkx.draw_networkx_edge_labels(self.graph, self.pos, labels)
         return self
-
-    def drawWeights(self) -> GraphVisualizer:
-        labels = networkx.get_edge_attributes(self.graph, 'weight')
-        return self.drawEdgeLabels(labels)
 
     def show(self) -> None:
         plt.axis('off')
@@ -84,34 +93,35 @@ class GraphDrawer:
 
         GraphVisualizer(self.context.graph).\
             withEdgeColors().\
-            drawGraph().\
-            drawWeights().\
+            withWeights().\
+            draw().\
             show()
 
     def shortestPath(self, distances: dict[Graph.nodes, float]):
-        node_labels = {node: str(node) + " (" + str(int(distances[node])) + ")" for node in distances}
+        node_labels = {node: str(node) + " (" + str(distances[node]) + ")" for node in distances}
 
         GraphVisualizer(self.context.graph).\
             withNodeColor(self.context.start_node, 'red').\
-            drawNodeLabels(node_labels).\
-            drawGraph().\
-            drawWeights().\
+            withNodeLabels(node_labels).\
+            withWeights().\
+            draw().\
             show()
 
     def coloring(self, colors: list[int]):
         GraphVisualizer(self.context.graph).\
             withColoring(colors).\
-            drawGraph().\
-            drawWeights().\
+            withWeights().\
+            draw().\
             show()
 
     def networkFlow(self, flow: dict[Graph.edges, int]):
-        edge_labels = {e: str(int(flow[e])) + " / " + str(self.context.graph[e[0]][e[1]]['weight']) for e in flow}
+        labels = {}
+        for e in self.context.graph.edges:
+            labels[e] = str(int(flow[e])) + " / " + str(self.context.graph[e[0]][e[1]]['weight'])
 
         GraphVisualizer(self.context.graph).\
             withNodeColor(self.context.start_node, 'red').\
             withNodeColor(self.context.end_node, 'blue').\
-            drawGraph().\
-            drawEdgeLabels(edge_labels).\
+            withEdgeLabels(labels).\
+            draw().\
             show()
-

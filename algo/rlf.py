@@ -1,5 +1,6 @@
 from __future__ import annotations
-from visualizer import *
+
+from algorithm import AlgoContext
 
 
 def RLF(context: AlgoContext) -> list[int]:

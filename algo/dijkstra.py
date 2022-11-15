@@ -1,10 +1,14 @@
 from __future__ import annotations
-from fibonacci import *
-from algorithm import *
+
+import math
+from networkx import Graph
+
+from algorithm import AlgoContext
+from data_struct.fibonacci import FibonacciHeap
 
 
-def Dijkstra(context: AlgoContext) -> dict[Graph.nodes, float]:
-    distances = {v: float('inf') for v in context.graph.nodes.keys()}
+def Dijkstra(context: AlgoContext) -> dict[Graph.nodes, int]:
+    distances = {v: math.inf for v in context.graph.nodes.keys()}
     distances[context.start_node] = 0
 
     visited = {}
