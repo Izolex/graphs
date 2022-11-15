@@ -15,6 +15,7 @@ from algo.rlf import *
 from algo.edmonds_karp import *
 from algo.dinic import *
 from algo.iddfs import *
+from algo.a_star import *
 from visualization import *
 
 nodes = [
@@ -73,11 +74,13 @@ class Algorithm(Enum):
     EdmondsKarp = 'edmonds_karp'
     Dinic = 'dinic'
     IDDFS = 'iddfs'
+    AStar = 'astar'
 
 
 algorithms = {
     AlgorithmType.Search: {
         Algorithm.IDDFS: IDDFS,
+        Algorithm.AStar: AStar,
     },
     AlgorithmType.Traversal: {
         Algorithm.BFS: BFS,
@@ -114,7 +117,7 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'iddfs'
+name = 'astar'
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
 result = algorithms[algoType][algoName](context)

@@ -9,6 +9,7 @@
 - [BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
 - [DFS](https://en.wikipedia.org/wiki/Depth-first_search)
 - [IDDFS](https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search)
+- [A*](https://en.wikipedia.org/wiki/A*_search_algorithm)
 
 ### [Shortest path](https://en.wikipedia.org/wiki/Shortest_path_problem)
 - [Dijkstra's](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
