@@ -46,23 +46,17 @@ edges = [
 # ]
 
 # bipartite graph
-edges = [
-    (1, 5, 0),
-    (1, 7, 0),
-    (2, 7, 0),
-    (3, 8, 0),
-    (4, 6, 0),
-    (4, 7, 0),
-]
+# edges = [
+#     (1, 5, 0),
+#     (1, 7, 0),
+#     (2, 7, 0),
+#     (3, 8, 0),
+#     (4, 6, 0),
+#     (4, 7, 0),
+# ]
 
 # nodes = [0, 1, 2, 3, 4, 5]
 # edges = [(0, 2, 1), (1, 3, 2), (3, 4, 3), (2, 3, 4), (2, 5, 5), (1, 3, 6), (3, 1, 7), (4, 5, 10)]
-
-graph = networkx.DiGraph()
-graph.add_weighted_edges_from(edges)
-
-
-context = AlgoContext(graph, 1, 5)
 
 
 class AlgorithmType(Enum):
@@ -141,10 +135,19 @@ def findAlgoType(an: str) -> AlgorithmType:
     raise Exception('Algo not found')
 
 
-name = 'hopcroft_karp'
+name = 'goldberg'
 
 algoType = findAlgoType(name)
 algoName = Algorithm(name)
+
+if algoName == Algorithm.Kahn:
+    graph = networkx.DiGraph()
+else:
+    graph = networkx.Graph()
+
+graph.add_weighted_edges_from(edges)
+context = AlgoContext(graph, 1, 5)
+
 result = algorithms[algoType][algoName](context)
 
 visualizer = Visualizer(context, result)

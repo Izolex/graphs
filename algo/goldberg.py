@@ -50,7 +50,7 @@ class GoldBergAlgo:
 
             self.relabel(node)
 
-    def run(self):
+    def run(self) -> dict[Graph.edges, int]:
         for neighbour in self.context.graph.neighbors(self.context.start_node):
             self.push(self.context.start_node, neighbour)
 
