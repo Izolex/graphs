@@ -1,20 +1,3 @@
-# KruskalMST(G):
-#  DisjointSets forest
-#  foreach (Vertex v : G):
-#  forest.makeSet(v)
-#  PriorityQueue Q // min edge weight
-#  foreach (Edge e : G):
-#  Q.insert(e)
-#  Graph T = (V, {})
-#
-#  while |T.edges()| < n-1:
-#  Vertex (u, v) = Q.removeMin()
-#  if forest.find(u) != forest.find(v):
-#  T.addEdge(u, v)
-#  forest.union( forest.find(u),
-#  forest.find(v) )
-#  return T
-
 from __future__ import annotations
 from fibonacci import *
 from visualizer import *
@@ -28,35 +11,37 @@ class Kruskal:
         self.graph = graph
         self.start_node = start_node
 
-    def __makeSet(self, parent, universe):
-        # create `n` disjoint sets (one for each item)
-        for i in universe:
-            parent[i] = i
-
-    def __find(self, parent, i):
-        if parent[i] == i:
+    def __find(self, forest, i):
+        if forest[i] == i:
             return i
-        return self.__find(parent, parent[i])
+        return self.__find(forest, forest[i])
 
-    def __union(self, parent, a, b):
-        # find the root of the sets in which elements
-        # `x` and `y` belongs
-        x = self.__find(parent, a)
-        y = self.__find(parent, b)
+    def __union(self, forest, rank, x, y):
+        x_set = self.__find(forest, x)
+        y_set = self.__find(forest, y)
 
-        parent[x] = y
+        if rank[x_set] < rank[y_set]:
+            forest[x_set] = y_set
+        elif rank[x_set] > rank[y_set]:
+            forest[y_set] = x_set
+        else:
+            forest[y_set] = x_set
+            rank[x_set] += 1
 
-    def run(self) -> dict[int, int]:
-        forest = {}
+    def run(self) -> list[graph.edges]:
+        mst = []
+        forest = []
+        rank = []
 
         queue = FibonacciHeap()
 
-        for edge in self.graph.edges:
-            forest[edge[0]] = edge[0]
-            forest[edge[1]] = edge[1]
-            queue.insert(self.graph[edge[0]][edge[1]]['weight'], edge)
+        for node in self.graph.nodes:
+            forest.append(node)
+            rank.append(0)
 
-        mst = {}
+        for edge in self.graph.edges:
+            weight = self.graph[edge[0]][edge[1]]['weight']
+            queue.insert(weight, edge)
 
         while not queue.is_empty():
             node = queue.extract_min()
@@ -65,19 +50,14 @@ class Kruskal:
             x = self.__find(forest, edge[0])
             y = self.__find(forest, edge[1])
             if x != y:
-                mst[edge[1]] = edge[0]
-                self.__union(forest, x, y)
+                mst.append(edge)
+                self.__union(forest, rank, x, y)
 
         return mst
 
-    def draw(self, mst: dict[int, int]) -> None:
-        for n1 in list(mst.keys()):
-            n2 = mst[n1]
-
-            if n1 == -1 or n2 == -1:
-                continue
-
-            self.graph[n1][n2]['color'] = 'red'
+    def draw(self, mst: list[graph.edges]) -> None:
+        for edge in mst:
+            self.graph[edge[0]][edge[1]]['color'] = 'red'
 
         GraphVisualizer(self.graph).\
             withNodeColor(self.start_node, 'red').\

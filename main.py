@@ -2,6 +2,8 @@ from dijkstra import *
 from prim import *
 from kruskal import *
 from fibonacci import *
+from welsh_powell import *
+from dsatur import *
 
 nodes = [
     0, 1, 2,
@@ -34,6 +36,8 @@ algo = "fibonacci"
 algo = "dijkstra"
 algo = "prim"
 algo = "kruskal"
+algo = "welsh_powell"
+algo = "dsatur"
 
 match algo:
     case "fibonacci":
@@ -62,6 +66,14 @@ match algo:
     case "kruskal":
         kru = Kruskal(graph, nodes[0])
         kru.draw(kru.run())
+
+    case "welsh_powell":
+        wp = WelshPowell(graph)
+        wp.draw(wp.run())
+
+    case "dsatur":
+        wp = DSatur(graph)
+        wp.draw(wp.run())
 
     case _:
         print("wtf")

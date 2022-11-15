@@ -1,14 +1,15 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterator, Optional, Tuple
-import networkx
 from networkx import Graph
+import math
+import networkx
 
 
 @dataclass
 class Node:
     key: int
-    value: int
+    value: any
     rank: Optional[int] = 0
     mark: Optional[bool] = False
     parent: Optional[Node] = None
@@ -26,6 +27,7 @@ class Node:
 class FibonacciHeap:
     root: Node | None = None
     rank: int = 0
+    total_nodes: int = 0
 
     def __unlink(self, node: Node) -> None:
         node.left.right = node.right
@@ -59,44 +61,36 @@ class FibonacciHeap:
 
         left, right = self.__find_neighbours(parent.child, child)
 
+        child.parent = parent
+        child.left = left
+        child.right = left
+
         if child.key < parent.child.key:
             parent.child = child
 
-        child.parent = parent
         if left == right:
-            if left.key < child.key:
-                left.right = child
-                left.left = child
-                child.left = left
-                child.right = left
-            else:
-                left.left = child
-                left.right = child
-                child.right = left
-                child.left = left
+            left.right = child
+            left.left = child
         else:
-            child.left = left
-            child.right = right
             left.right = child
             right.left = child
 
-    def __insert_sibling(self, a: Node, b: Node) -> None:
-        left, right = self.__find_neighbours(a, b)
+    def __insert_sibling(self, brother: Node, sister: Node) -> None:
+        left, right = self.__find_neighbours(brother, sister)
 
-        if a.parent is not None and a.parent.key > b.key:
-            a.parent.child = b
-        b.parent = a.parent
+        if brother.parent is not None and brother.parent.key > sister.key:
+            brother.parent.child = sister
+        sister.parent = brother.parent
+
+        sister.right = right
+        sister.left = left
 
         if left == right:
-            left.right = b
-            left.left = b
-            b.right = left
-            b.left = left
+            left.right = sister
+            left.left = sister
         else:
-            b.left = left
-            b.right = right
-            left.right = b
-            right.left = b
+            left.right = sister
+            right.left = sister
 
     def __consolidate(self) -> None:
         if self.rank == 0:
@@ -104,7 +98,7 @@ class FibonacciHeap:
             return
 
         nodes = [n for n in self.__iterate(self.root)]
-        ranks: list[Node | None] = [None] * 99999
+        ranks: list[Node | None] = [None] * int(math.log(self.total_nodes) * 2)
 
         for node in nodes:
             rank = node.rank
@@ -132,12 +126,21 @@ class FibonacciHeap:
     def extract_min(self) -> Node:
         mini = self.root
         self.__unlink(mini)
-        self.root = mini.right
+        self.total_nodes -= 1
+
+        if mini == mini.right:
+            self.root = mini.child
+            self.rank = mini.rank
+
+            return mini
+
         self.rank -= 1
+        self.root = mini.right
 
         n = mini.child
-        if n is not None:
-            while n is not mini.child:
+        if n:
+            self.merge(n)
+            while n != mini.child:
                 r = n.right
                 self.merge(n)
                 n = r
@@ -192,6 +195,7 @@ class FibonacciHeap:
                 self.merge(n)
         else:
             self.rank += 1
+            self.total_nodes += 1
             node.parent = None
 
             if self.root is None:
@@ -205,7 +209,7 @@ class FibonacciHeap:
     def is_empty(self) -> bool:
         return self.root is None
 
-    def insert(self, key: int, value: int) -> None:
+    def insert(self, key: int, value: any) -> None:
         self.merge(Node(key, value))
 
     def __get_nodes_edges(self, node: Node) -> Tuple[list[int], list[dict]]:
@@ -258,5 +262,5 @@ class FibonacciHeap:
 
     def print(self) -> None:
         print("HEAP:")
-        print("min: ", self.root.key, " rank: ", self.rank)
+        print("min: ", self.root.key, " rank: ", self.rank, " total: ", self.total_nodes)
         self.__printNode(1, self.root)

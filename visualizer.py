@@ -11,6 +11,8 @@ class GraphVisualizer:
     with_labels: bool = True
     with_edge_colors: bool = False
 
+    colors: list[str] = ['coral', 'violet', 'dodgerblue', 'hotpink']
+
     def __init__(self, g: Graph):
         self.graph = g
         self.pos = networkx.spring_layout(g)
@@ -18,6 +20,14 @@ class GraphVisualizer:
 
     def withNodeColor(self, node: int, color: str) -> GraphVisualizer:
         self.node_colors[node] = color
+        return self
+
+    def withNodeColors(self, colors: list[str]):
+        self.node_colors = colors
+        return self
+
+    def withColoring(self, coloring: list[int]):
+        self.node_colors = [self.colors[c] for c in coloring]
         return self
 
     def withNodeLabels(self, labels: dict) -> GraphVisualizer:
